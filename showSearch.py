@@ -173,7 +173,7 @@ class Ui_showSearch(object):
         QtCore.QMetaObject.connectSlotsByName(showSearch)
 
 
-  
+
 
         ######################################
 

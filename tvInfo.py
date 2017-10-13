@@ -3,7 +3,6 @@ from imdbpie import Imdb
 
 def seasonBuilder(title):
 
-def season_builder(title):
 
     #gets the information of the show in general
     #Also gets the seasons and episdoes in a dict to use in the other file
@@ -60,8 +59,6 @@ def season_builder(title):
 #Gives the plot and poster image about a specific episode based off imdb_id returned in season_builder
 
 def episodeBuilder(episode_id):
-
-def episode_builder(episode_id):
 
 
     imdb = Imdb()
