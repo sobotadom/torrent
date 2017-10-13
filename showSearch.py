@@ -280,11 +280,11 @@ class Ui_showSearch(object):
             temp2 = '0' + self.episode_number[0]
 
         #Get torrents based on episode
-<<<<<<< HEAD
+
         self.torrents = torrentSearch(self.searched_name,'S' + temp1 + 'E' + temp2)
-=======
-        self.torrents = torrent_search(self.searched_name,'S' + temp1 + 'E' + temp2)
->>>>>>> b9ff7029a2ac4531bf18c4c78a1b9809b17328e5
+
+     
+
 
         #pass torrents on to download list widget to handle selection of torrent
         for t in self.torrents:
