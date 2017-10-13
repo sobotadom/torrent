@@ -1,10 +1,10 @@
 from imdbpie import Imdb
 
-<<<<<<< HEAD
+
 def seasonBuilder(title):
-=======
+
 def season_builder(title):
->>>>>>> b9ff7029a2ac4531bf18c4c78a1b9809b17328e5
+
     #gets the information of the show in general
     #Also gets the seasons and episdoes in a dict to use in the other file
 
@@ -36,7 +36,7 @@ def season_builder(title):
         for e in temp:
 
 
-            
+
             #new dict entry for the next season, the number season of the show is the entry key
             if e.season > season_counter:
 
@@ -58,11 +58,11 @@ def season_builder(title):
 
 
 #Gives the plot and poster image about a specific episode based off imdb_id returned in season_builder
-<<<<<<< HEAD
+
 def episodeBuilder(episode_id):
-=======
+
 def episode_builder(episode_id):
->>>>>>> b9ff7029a2ac4531bf18c4c78a1b9809b17328e5
+
 
     imdb = Imdb()
     imdb = Imdb(anonymize=True)
