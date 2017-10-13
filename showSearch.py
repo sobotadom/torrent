@@ -16,11 +16,13 @@ except AttributeError:
 
 try:
     _encoding = QtGui.QApplication.UnicodeUTF8
+
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
+
 
 class Ui_showSearch(object):
 
@@ -33,8 +35,7 @@ class Ui_showSearch(object):
         self.searched_name = ''
         self.torrents = {}
 
-
-        #General GUI Setup
+        # General GUI Setup
         showSearch.setObjectName(_fromUtf8("showSearch"))
         showSearch.resize(1900, 750)
         showSearch.setMouseTracking(False)
@@ -47,14 +48,12 @@ class Ui_showSearch(object):
         self.centralwidget = QtGui.QWidget(showSearch)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
 
-
         self.searchFrame = QtGui.QFrame(self.centralwidget)
         self.searchFrame.setGeometry(QtCore.QRect(10, 0, 511, 611))
         self.searchFrame.setStyleSheet(_fromUtf8(""))
         self.searchFrame.setFrameShape(QtGui.QFrame.StyledPanel)
         self.searchFrame.setFrameShadow(QtGui.QFrame.Raised)
         self.searchFrame.setObjectName(_fromUtf8("searchFrame"))
-
 
         self.infoFrame = QtGui.QFrame(self.centralwidget)
         self.infoFrame.setGeometry(540, 0, 611, 711)
@@ -69,13 +68,13 @@ class Ui_showSearch(object):
         self.frame.setFrameShadow(QtGui.QFrame.Raised)
         self.frame.setObjectName(_fromUtf8("frame"))
 
-        #Set up Show Search box to input show name
+        # Set up Show Search box to input show name
         self.search_query_text = QtGui.QPlainTextEdit(self.searchFrame)
         self.search_query_text.setGeometry(QtCore.QRect(10, 10, 341, 41))
         self.search_query_text.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.search_query_text.setObjectName(_fromUtf8("search_query_text"))
 
-        #Setting up labels for GUI
+        # Setting up labels for GUI
 
         self.titleLabel = QtGui.QLabel(self.centralwidget)
         self.titleLabel.setGeometry(QtCore.QRect(580, 0, 491, 100))
@@ -94,76 +93,60 @@ class Ui_showSearch(object):
         self.titleLabel.setObjectName("titleLabel")
         self.titleLabel.setWordWrap(True)
 
-
         self.infoLabel = QtGui.QLabel(self.centralwidget)
         self.infoLabel.setGeometry(QtCore.QRect(580, 580, 491, 321))
         self.infoLabel.setWordWrap(True)
-
 
         font = QtGui.QFont()
         font.setFamily("Sans Serif")
         font.setPointSize(14)
 
-
         self.infoLabel.setFont(font)
-        self.infoLabel.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.infoLabel.setAlignment(
+            QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.infoLabel.setObjectName("infoLabel")
-
-
 
         self.listWidget = QtGui.QListWidget(self.centralwidget)
         self.listWidget.setGeometry(QtCore.QRect(1130, 60, 750, 550))
         self.listWidget.setObjectName("results")
 
-
-
-
-
-
-        #Create the widget that will show the seasons and then the episodes for that season
+        # Create the widget that will show the seasons and then the episodes for that season
         self.results = QtGui.QTreeWidget(self.frame)
-        self.header=QtGui.QTreeWidgetItem([" "])
+        self.header = QtGui.QTreeWidgetItem([" "])
         self.results.setHeaderItem(self.header)
 
-
-        self.results.setGeometry(5,1,501,561)
+        self.results.setGeometry(5, 1, 501, 561)
         self.results.itemSelectionChanged.connect(self.extract_result)
 
-
-
-        #After episode selected, sends torrent information to torrent application
+        # After episode selected, sends torrent information to torrent application
         self.downloadButton = QtGui.QPushButton(self.centralwidget)
         self.downloadButton.setGeometry(QtCore.QRect(1130, 630, 750, 80))
         self.downloadButton.setObjectName("downloadButton")
         self.downloadButton.setText("Download")
         self.downloadButton.clicked.connect(self.handleDownload)
+        self.downloadButton.setEnabled(False)
 
-        #The button used to search for show using inputted text in search_query_text
+        # The button used to search for show using inputted text in search_query_text
         self.searchButton = QtGui.QPushButton(self.searchFrame)
         self.searchButton.setGeometry(QtCore.QRect(370, 10, 131, 31))
         self.searchButton.setFlat(False)
         self.searchButton.setObjectName(_fromUtf8("searchButton"))
         self.searchButton.clicked.connect(self.handleSearch)
 
-        #the button used to pick a certain episode
+        # the button used to pick a certain episode
         self.selectButton = QtGui.QPushButton(self.frame)
         self.selectButton.setGeometry(QtCore.QRect(6, 570, 511, 81))
         self.selectButton.setAutoDefault(False)
         self.selectButton.setObjectName(_fromUtf8("selectButton"))
         self.selectButton.clicked.connect(self.handleSelect)
+        self.selectButton.setEnabled(False)
 
-
-
-        #picture of show extracted from imdb
+        # picture of show extracted from imdb
         self.picture = QtGui.QLabel(self.centralwidget)
 
-
-
-
-        #label where the shows name will be displayed
+        # label where the shows name will be displayed
 
         showSearch.setCentralWidget(self.centralwidget)
-
 
         self.toolBar = QtGui.QToolBar(showSearch)
         self.toolBar.setObjectName(_fromUtf8("toolBar"))
@@ -172,21 +155,12 @@ class Ui_showSearch(object):
         self.retranslateUi(showSearch)
         QtCore.QMetaObject.connectSlotsByName(showSearch)
 
-
-
-
         ######################################
 
-
-
-
-        #if an argument is passed on command line, automatically search
+        # if an argument is passed on command line, automatically search
         if len(sys.argv) == 2:
-             self.search_query_text.appendPlainText(sys.argv[1])
-             self.searchButton.click()
-
-
-
+            self.search_query_text.appendPlainText(sys.argv[1])
+            self.searchButton.click()
 
     def handleSearch(self):
         '''
@@ -194,55 +168,54 @@ class Ui_showSearch(object):
         the show's season and episode information
         '''
 
-
-        #Reset previous search data
+        # Reset previous search data
         self.titleLabel.setText('')
         self.infoLabel.setText('')
         self.listWidget.clear()
-
-
+        self.selectButton.setEnabled(True)
 
         self.searched_name = self.search_query_text.toPlainText()
-        #Extract relevant search data for show
-        title, year, show_poster_url, tagline, self.seasons = seasonBuilder(self.searched_name)
+        # Extract relevant search data for show
+        title, year, show_poster_url, tagline, self.seasons = seasonBuilder(
+            self.searched_name)
 
         self.results.clear()
 
-
-        self.header.setText(0,title)
-
+        self.header.setText(0, title)
 
         todays_date = datetime.datetime.today()
 
-        for i in range(1,len(self.seasons) + 1):
-            #input the season into the results list
+        for i in range(1, len(self.seasons) + 1):
+            # input the season into the results list
 
             current_season = QtGui.QTreeWidgetItem(["Season " + str(i)])
             self.results.addTopLevelItem(current_season)
             for e in range(1, len(self.seasons[i]) + 1):
-                #inputs each episode in the current season into the results list
+                # inputs each episode in the current season into the results list
 
                 temp = ''
-                if e in range(1,10):
+                if e in range(1, 10):
                     temp = str(i) + "0" + str(e)
                 else:
                     temp = str(i) + str(e)
                 episode_description = temp + ": " + str(self.seasons[i][e][0])
 
-                #only show results for shows that have aired
-                release_date = datetime.datetime.strptime(self.seasons[i][e][1],'%Y-%m-%d')
+                # only show results for shows that have aired
+                release_date = datetime.datetime.strptime(
+                    self.seasons[i][e][1], '%Y-%m-%d')
                 if todays_date > release_date:
 
-                    current_episode = QtGui.QTreeWidgetItem([episode_description])
+                    current_episode = QtGui.QTreeWidgetItem(
+                        [episode_description])
                     current_season.addChild(current_episode)
 
-            #Set labels to appropraite information
+            # Set labels to appropraite information
             self.titleLabel.setText(title + '(' + str(year) + ')')
             self.infoLabel.setText(tagline)
             self.setPicture(show_poster_url)
 
     def extract_result(self):
-        #get the season and episode selection and store it in varaibles
+        # get the season and episode selection and store it in varaibles
 
         selected_item = str(self.results.currentItem().text(0)).split(":")[0]
 
@@ -250,59 +223,58 @@ class Ui_showSearch(object):
             self.selected_season = selected_item[0]
             self.episode_number = selected_item[1:3]
 
-
         elif len(selected_item) == 4:
             self.selected_season = selected_item[0:2]
             self.episode_number = selected_item[2:4]
 
-
     def handleSelect(self):
-        #Reset label information for downloads list
+        # Reset label information for downloads list
         self.titleLabel.setText('')
         self.infoLabel.setText('')
         self.listWidget.clear()
 
-
         if self.episode_number[0] == '0':
             self.episode_number = self.episode_number[1]
 
-        #Get the selected episode information from seasons
-        result = self.seasons[int(self.selected_season)][int(self.episode_number)]
+        # Get the selected episode information from seasons
+        result = self.seasons[int(self.selected_season)
+                              ][int(self.episode_number)]
 
-        title,release,imdb_id = result[0],result[1],result[2]
+        title, release, imdb_id = result[0], result[1], result[2]
         plot, title = episodeBuilder(imdb_id)
 
-        #formatting issues for single digit episode numbers
-        temp1,temp2 = self.selected_season,self.episode_number
-        if int(self.selected_season) in range(0,10):
+        # formatting issues for single digit episode numbers
+        temp1, temp2 = self.selected_season, self.episode_number
+        if int(self.selected_season) in range(0, 10):
             temp1 = '0' + self.selected_season[0]
-        if int(self.episode_number) in range(0,10):
+        if int(self.episode_number) in range(0, 10):
             temp2 = '0' + self.episode_number[0]
 
-        #Get torrents based on episode
+        # Get torrents based on episode
 
-        self.torrents = torrentSearch(self.searched_name,'S' + temp1 + 'E' + temp2)
+        self.torrents = torrentSearch(
+            self.searched_name, 'S' + temp1 + 'E' + temp2)
 
-     
+        #if torrents == {}:
+                # no torrents
 
-
-        #pass torrents on to download list widget to handle selection of torrent
+            # pass torrents on to download list widget to handle selection of torrent
         for t in self.torrents:
             self.listWidget.addItem(self.torrents[t][0] + " --- " + self.torrents[t][1] + ' --- '
-                + self.torrents[t][2])
+                                    + self.torrents[t][2])
 
-        #Set the appropraite labels with information
+        # Set the appropraite labels with information
         self.titleLabel.setText('S' + temp1 + 'E' + temp2 + ': ' + title)
         self.infoLabel.setText(plot)
-
+        self.downloadButton.setEnabled(True)
 
     def handleDownload(self):
-        #Pressing Download buttons will lead to torrent application to open with
-        #the selected torrent
+        # Pressing Download buttons will lead to torrent application to open with
+        # the selected torrent
         webbrowser.open(self.torrents[self.listWidget.currentRow()][4])
 
     def setPicture(self, url):
-        #set picutre with url from show
+        # set picutre with url from show
 
         data = urllib.request.urlopen(url).read()
 
@@ -311,11 +283,7 @@ class Ui_showSearch(object):
         pixmap = QtGui.QPixmap(image)
         self.picture.setPixmap(pixmap)
 
-
-        self.picture.setGeometry(700,180,pixmap.width(), pixmap.height())
-
-
-
+        self.picture.setGeometry(700, 180, pixmap.width(), pixmap.height())
 
     def retranslateUi(self, showSearch):
         showSearch.setWindowTitle(_translate("showSearch", "Torrent", None))
