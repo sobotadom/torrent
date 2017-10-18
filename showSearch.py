@@ -175,6 +175,7 @@ class Ui_showSearch(object):
         self.selectButton.setEnabled(True)
 
         self.searched_name = self.search_query_text.toPlainText()
+        QtGui.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         # Extract relevant search data for show
         title, year, show_poster_url, tagline, self.seasons = seasonBuilder(
             self.searched_name)
@@ -213,7 +214,7 @@ class Ui_showSearch(object):
             self.titleLabel.setText(title + '(' + str(year) + ')')
             self.infoLabel.setText(tagline)
             self.setPicture(show_poster_url)
-
+            QtGui.QApplication.restoreOverrideCursor()
     def extract_result(self):
         # get the season and episode selection and store it in varaibles
 
@@ -229,9 +230,12 @@ class Ui_showSearch(object):
 
     def handleSelect(self):
         # Reset label information for downloads list
+
         self.titleLabel.setText('')
         self.infoLabel.setText('')
         self.listWidget.clear()
+
+        QtGui.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
 
         if self.episode_number[0] == '0':
             self.episode_number = self.episode_number[1]
@@ -268,6 +272,7 @@ class Ui_showSearch(object):
         self.infoLabel.setText(plot)
         self.downloadButton.setEnabled(True)
 
+        QtGui.QApplication.restoreOverrideCursor()
     def handleDownload(self):
         # Pressing Download buttons will lead to torrent application to open with
         # the selected torrent

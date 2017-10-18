@@ -9,7 +9,6 @@ Run showSearch for application
 * Requests -- http://docs.python-requests.org/en/master/
 
 # ToDo 
-* Fix bugs when searching shows that share names with movies
+* Fix bugs when searching shows that share names with movies and older tv shows
 * Get a better name
-* Add a loading widget in the center of UI when loading either listWidget
 
